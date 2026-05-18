@@ -1,0 +1,18 @@
+﻿---
+agent: agent
+description: Walk the user through design.md section by section with Understood/Question/Don't-understand/Stop prompts
+---
+
+First read `.opal/runtime/spec-authoring-instructions.md`, `.opal/runtime/playback-instructions.md`, and `.opal/runtime/change-protocol.md`, and follow them for this request.
+
+Resolve the active spec. The spec name argument is optional; if omitted, follow the spec inference rule in `.opal/runtime/spec-authoring-instructions.md`.
+
+Read `.opal/specs/<change-name>/requirements.md` and `design.md`. For each non-trivial top-level section, synthesise what was decided, why, and how (cite requirement numbers), then prompt the user with **Understood / Question (please say what) / Don't understand (please say which part) / Stop**.
+
+On Question, fork into resolution — the user may probe the reasoning, challenge the decision, or surface an alternative. If the discussion concludes a real change is needed, invoke the change protocol. On "don't understand", fork into clarification at a lower abstraction level and re-prompt the same section after the user confirms understanding. On Stop, end the section walk and jump straight to the questions step below.
+
+After the section walk (whether all sections were covered or the user stopped early), ask "Any questions before we move on?". Answer each question, then ask "Anything else?" until the user has no more questions.
+
+Once questions are done, append `> Played back via OpalSpec playback on YYYY-MM-DD.` to `design.md` (noting any sections skipped via Stop), then ask: "Generate tasks with `/opal:tasks`, or run `/opal:build` directly from the design?". Tasks is optional.
+
+Do not read sections verbatim. Do not move past a section without an explicit signal. Do not skip the questions step at exit, even after Stop. Do not edit specs without explicit user agreement. Do not implement code.

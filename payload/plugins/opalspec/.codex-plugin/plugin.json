@@ -1,0 +1,32 @@
+﻿{
+  "name": "opalspec",
+  "version": "3.3.2",
+  "description": "OpalSpec spec-driven development workflow for requirements, design, tasks, and implementation.",
+  "author": {
+    "name": "OpalSpec Maintainers",
+    "email": "",
+    "url": "https://github.com/opalspec/opalspec"
+  },
+  "homepage": "https://github.com/opalspec/opalspec",
+  "repository": "https://github.com/opalspec/opalspec",
+  "license": "MIT",
+  "keywords": ["opalspec", "sdd", "spec-driven-development", "codex"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OpalSpec",
+    "shortDescription": "Spec-driven workflow",
+    "longDescription": "Creates and builds OpalSpec specs through separate requirements, design, tasks, and build stages.",
+    "developerName": "OpalSpec Maintainers",
+    "category": "Productivity",
+    "capabilities": ["Write", "Interactive"],
+    "websiteURL": "https://github.com/opalspec/opalspec",
+    "privacyPolicyURL": "",
+    "termsOfServiceURL": "",
+    "defaultPrompt": [
+      "Use OpalSpec to create requirements for this feature.",
+      "Use OpalSpec to create design for this spec.",
+      "Use OpalSpec to build this spec's tasks."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

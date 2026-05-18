@@ -1,0 +1,19 @@
+﻿description = "Create an OpalSpec design.md document from approved requirements"
+prompt = """
+First read .opal/runtime/spec-authoring-instructions.md and follow it for this request.
+
+The spec name argument is optional; if omitted, follow the spec inference rule in .opal/runtime/spec-authoring-instructions.md.
+
+Read .opal/specs/<change-name>/requirements.md.
+Read relevant source files to understand current architecture.
+Create only .opal/specs/<change-name>/design.md.
+
+Include Overview, Goals / Non-Goals, Architecture, Components and Interfaces, Data Models, Correctness Properties, Error Handling, and Testing Strategy.
+Include Decisions using **Outcome**, **Reasoning**, and **Alternative Options** when the work has non-trivial cross-layer or architectural tradeoffs. Skip it for trivial designs.
+When the design has multiple runtime components across deployment boundaries, include a Runtime Component Flow Diagram in Architecture following .opal/runtime/spec-authoring-instructions.md.
+Trace correctness properties to requirement numbers.
+
+After the design is settled, ask: 'Want to play back the design with /opal:playback, generate tasks with /opal:tasks, or run /opal:build directly?'. /opal:tasks is optional — /opal:build works directly from design.md when no tasks.md exists.
+
+Do not create tasks.md. Do not implement code.
+"""

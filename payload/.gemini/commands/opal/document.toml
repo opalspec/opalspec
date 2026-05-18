@@ -1,0 +1,13 @@
+description = "Write or update a developer guide at .opal/docs/<topic>.md based on what was just built"
+prompt = """
+First read .opal/runtime/spec-authoring-instructions.md and .opal/runtime/document-instructions.md, and follow them for this request.
+
+Resolve the active spec via the spec inference rule. Resolve the topic — use the supplied argument, or recommend an existing/new topic and confirm with the user. Topics are kebab-case.
+
+Read .opal/specs/<active-spec>/requirements.md, design.md, and tasks.md (if present). Read .opal/docs/<topic>.md if it exists. Read the relevant implementation files so the doc reflects shipped code.
+
+Write or update .opal/docs/<topic>.md per the required structure (What this is, How it fits together, Key flows, Extending or changing this area, Related specs). Add the active spec to Related specs and stamp the YYYY-MM-DD update marker at the bottom. Summarise what was added or changed.
+
+Audience is humans, not agents — plain language, concrete examples, file paths. Do not restate the spec verbatim. Do not silently restructure an existing topic doc; propose first. Do not implement code.
+"""
+

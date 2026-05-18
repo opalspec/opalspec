@@ -1,0 +1,20 @@
+﻿{
+  "name": "opalspec-local",
+  "interface": {
+    "displayName": "OpalSpec Local"
+  },
+  "plugins": [
+    {
+      "name": "opalspec",
+      "source": {
+        "source": "local",
+        "path": "./plugins/opalspec"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

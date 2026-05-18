@@ -1,0 +1,47 @@
+{
+  "name": "@opalspec/opalspec",
+  "version": "3.3.2",
+  "description": "Spec-driven development workflow for AI coding agents",
+  "license": "MIT",
+  "homepage": "https://opalspec.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opalspec/opalspec.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opalspec/opalspec/issues"
+  },
+  "keywords": [
+    "opalspec",
+    "spec-driven-development",
+    "sdd",
+    "ai-coding",
+    "codex",
+    "claude",
+    "cursor"
+  ],
+  "type": "module",
+  "bin": {
+    "opalspec": "./bin/opalspec.js"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "files": [
+    "bin",
+    "src",
+    "payload",
+    "README.md",
+    "INSTALL.md",
+    "docs",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check:release": "node scripts/check-release-consistency.mjs",
+    "pack:dry-run": "npm pack --dry-run"
+  }
+}
