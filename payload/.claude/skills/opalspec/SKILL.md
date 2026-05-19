@@ -5,7 +5,7 @@ license: MIT
 compatibility: Local repo workflow, no external CLI required.
 metadata:
   author: local
-  version: "3.4.0-rc.3"
+  version: "3.4.0-rc.4"
 ---
 
 OpalSpec is a local spec-driven development workflow stored under `.opal`.

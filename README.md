@@ -1,123 +1,48 @@
 ﻿# OpalSpec
 
-**Spec-driven development, shaped around how you work.**
+OpalSpec is a lightweight spec-driven development framework for AI-assisted coding workflows. It helps you turn intent into requirements, design, implementation, and documentation without forcing unnecessary ceremony.
 
-OpalSpec is a lightweight spec-driven development workflow for AI coding agents. It separates planning from implementation so the agent always has the context it needs to act precisely — and lets you skip the parts you don't need.
+OpalSpec codifies existing manual workflows in which developers are guiding AI to help shape a plan, create a design, and support implementation. What OpalSpec adds is consistency, repeatability, and a lasting record of the work, while staying flexible enough to fit different developers, teams, and types of change.
 
-OpalSpec is deliberately file-based. Each change becomes a small spec folder that can be reviewed, edited, committed, and used by any AI tool that reads markdown.
+Unlike heavier process-driven approaches, OpalSpec does not assume one workflow fits every change. Use it where structure adds value, skip it where it does not, and keep your process as lightweight as the work allows.
 
-```text
-.opal/
-  specs/<change-name>/   # per-change requirements / design / (optional) tasks
-  docs/<topic>.md        # optional dev guides written after build
-  runtime/               # protocols and prompts the agent reads (upstream-owned)
-  README.md
-  VERSION
-```
+## How it works
 
-## The Flow
+You do not need to use OpalSpec for every change, and OpalSpec does not enforce a master spec. Code remains the executable source of truth. Specs capture the intent, decisions, and context around a change; docs explain how the finished system works. This reduces overhead, avoids unnecessary AI reconciliation, and keeps the workflow practical.
 
-```mermaid
-flowchart TD
-    Start([New change])
-    Start --> New["/opal:new\nname + description"]
-    New --> StyleQ{"Generate or\nask questions?"}
-    StyleQ -->|generate| Define["Define mode:\none-shot draft"]
-    StyleQ -->|ask questions| AskMe["AskMe mode:\niterative interview"]
-    Define --> Reqs[requirements.md]
-    AskMe --> Reqs
-    Reqs --> Design["/opal:design"]
-    Design --> DesignDoc[design.md]
-    DesignDoc -.-> Preflight["/opal:preflight\nread-only review"]
-    DesignDoc --> NextQ{"Play back,\ntasks, or\nbuild?"}
-    NextQ -->|play back| Playback["/opal:playback"]
-    NextQ -->|tasks| Tasks["/opal:tasks"]
-    NextQ -->|build| Impl
-    Playback --> Walk{"Per-section\nprompt"}
-    Walk -->|Understood| Walk
-    Walk -->|Question| Q["Discuss;\nchange protocol\nif real change"]
-    Walk -->|Don't understand| Clar["Clarify;\nre-prompt"]
-    Walk -->|Stop| Qs["Any final\nquestions?"]
-    Walk -.->|all sections covered| Qs
-    Q --> Walk
-    Clar --> Walk
-    Qs --> NextQ
-    Tasks --> TasksDoc[tasks.md]
-    TasksDoc --> Impl["/opal:build"]
-    Impl --> Drift{"Spec drift\nduring work?"}
-    Drift -->|no| Impl
-    Drift -->|yes| CP["Change protocol:\npause, propose,\nagree, update,\nresume"]
-    CP --> Impl
-    Impl --> DocQ{"Write a\ndev doc?"}
-    DocQ -->|skip| Done([Done])
-    DocQ -->|"opal document"| Doc[".opal/docs/topic.md"]
-    Doc --> Done
-```
+For changes suited to a spec-driven flow — features, larger refactors, AI-assisted work, or anything that benefits from clear intent — OpalSpec gives the agent the context it needs to produce more relevant results, while leaving a lasting record that makes the work easier to review, maintain, and extend.
 
-Forks at every interactive step:
+OpalSpec has three core steps: **requirements**, **design**, and **implementation**.
 
-- **`/opal:new`** asks "generate a draft, or ask questions to clarify direction?" — that single fork replaces the older define / askme commands.
-- **After design**, you pick the next stage: optional **playback**, optional **tasks**, or jump straight to **build**.
-- **Preflight** is an optional user-invoked second-agent review after design. The design-authoring agent does not offer it automatically; run `/opal:preflight` in another agent context when you want a read-only critique before implementation.
-- **Playback** forks four ways per section: Understood / Question (probe or challenge) / Don't understand (clarify) / Stop (end the walk early). After the walk it asks if you have any final questions before the next stage.
-- **Implementation** triggers the change protocol whenever reality diverges from the spec. It also offers an optional **`/opal:document`** stage at the end to write or update a dev guide.
+Requirements define what needs to be built and why, giving both the developer and the agent a clear understanding of the intended change. Design explains how the change should be approached, including the structure, important decisions, and constraints the implementation should follow. Implementation is where the agent uses that context to make the change in the codebase, producing results guided by the spec rather than a loose prompt.
 
-## The Documents
+Only the core flow is required: create the spec, design the solution, then implement the change. Other steps, such as clarifying questions, preflight review, playback, task generation, and documentation, are optional and can be used when they add value.
 
-`requirements.md` is behavior-first. EARS-style acceptance criteria with `WHEN` / `IF` / `THEN` / `SHALL`, plus a glossary.
+## Commands
 
-`design.md` is implementation-facing. Files, modules, components, interfaces, data models, correctness properties, error handling, testing strategy.
+### Core flow
 
-`tasks.md` is execution-facing — but **optional**. Numbered, verifiable tasks with traces like `_Requirements: 1.1, 2.3_`. Skip it for small changes; `/opal:build` works directly from `design.md` when there's no `tasks.md`. When present, `tasks.md` is also the resume ledger: agents update completed task and checkpoint checkboxes as they build.
+- **`/opal:new`** — Create a new spec and generate requirements. Use this when you want to define the change clearly before design or implementation begins.
 
-`.opal/docs/<topic>.md` is human-facing. A dev guide explaining what was built and how it works in plain language. Multiple specs can update the same topic over time.
+- **`/opal:design`** — Create an implementation-facing design from the requirements. Use this when you want the agent to understand the codebase, plan the approach, and capture key decisions before writing code.
 
-## How To Use It
+- **`/opal:build`** — Implement the change from the spec. Use this when the requirements and design are clear and you are ready for the agent to update the codebase.
 
-After installing OpalSpec into a repo, kick off a new change:
+### Optional steps
 
-```text
-/opal:new "<feature-name>" "<description of what to build>"
-```
+- **`/opal:preflight`** — Review the spec before implementation without changing code. Use this when you want a second opinion on coverage, risks, edge cases, and readiness.
 
-Both arguments are optional — if you skip them the agent will ask. It then asks: **Would you like me to generate a draft requirements doc, or ask you questions to clarify direction first?**
+- **`/opal:playback`** — Walk through the design step by step in plain language. Use this when you want to understand, review, or challenge the design before build.
 
-After requirements are settled, continue one stage at a time:
+- **`/opal:tasks`** — Break the design into an implementation checklist. Use this for larger or riskier changes where sequencing, checkpoints, or resumability matter.
 
-```text
-/opal:design        # write design.md from requirements
-/opal:preflight     # optional: read-only second-agent review of design.md
-/opal:playback      # optional: walk the design with Understood/Question/Don't-understand/Stop
-/opal:tasks         # optional: turn the design into a task plan
-/opal:build         # implement from tasks.md if present, else from design.md
-/opal:document      # optional: write/update .opal/docs/<topic>.md
-```
+- **`/opal:document`** — Create or update developer documentation after the build. Use this when the finished work should be easy for future contributors to understand, maintain, or extend.
 
-The spec name is optional for any stage after `/opal:new` — if omitted, the agent infers the active spec (single-spec wins outright; multiple-spec picks the most recently modified and confirms with you).
+## Learn more
 
-For Codex, the skill-style invocation is:
+New to OpalSpec? Start with the [Getting Started](docs/getting-started.md) guide for a first end-to-end flow from install to build. For setup details, see [Installation](docs/installation.md), then use [Commands](docs/commands.md) as the quick reference for each OpalSpec stage.
 
-```text
-$opalspec new <change-name>: <description>
-$opalspec create design for <change-name>
-$opalspec preflight <change-name>
-$opalspec play back design for <change-name>
-$opalspec create tasks for <change-name>
-$opalspec build <change-name>
-$opalspec document <topic>
-```
-
-## Tool Support
-
-OpalSpec includes prompt, command, or skill files for:
-
-- Codex
-- Claude Code
-- Cursor
-- Gemini CLI
-- GitHub Copilot
-
-Each install is scoped to the tools you actually use — you pass `-Tool` when installing (see [INSTALL.md](INSTALL.md)). All tool wrappers point back to `.opal/runtime/spec-authoring-instructions.md`, which is the source of truth for the workflow rules. Interactive flows (new, askme, playback), preflight, the change protocol, and the document stage have their own canonical docs alongside it.
+To understand how OpalSpec is structured, read [The `.opal` Folder](docs/opal.md). For choosing the right level of process for different kinds of work, see [Workflows](docs/workflows.md). If you want to understand the thinking behind the project, read [Philosophy](docs/philosophy.md). For tool-specific command syntax across Codex, Claude Code, Cursor, Gemini, GitHub Copilot, and plugins, see [Supported Tools](docs/supported-tools.md).
 
 ## Install
 

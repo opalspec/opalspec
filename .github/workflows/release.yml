@@ -22,9 +22,8 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Upgrade npm to latest (OIDC trusted publishing requires npm 11.5+)
+      - name: Print Node and npm versions
         run: |
-          npm install -g npm@latest
           echo "node $(node --version)"
           echo "npm  $(npm --version)"
 
