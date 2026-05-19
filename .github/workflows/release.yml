@@ -22,6 +22,12 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Upgrade npm to latest (OIDC trusted publishing requires npm 11.5+)
+        run: |
+          npm install -g npm@latest
+          echo "node $(node --version)"
+          echo "npm  $(npm --version)"
+
       - name: Debug — print OIDC subject claim
         # Temporary diagnostic. Decodes the GitHub Actions OIDC token to see the
         # exact sub/aud/repository/workflow_ref claims that npm will verify
