@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # Keep pinned GitHub Actions SHAs current. Dependabot rebases the SHA when a
+  # new release is published, and the comment after the SHA shows the version.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # No production npm dependencies today, but having this in place means any
+  # future dependency gets auto-PRed when a vulnerability is published.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly

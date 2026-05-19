@@ -13,16 +13,20 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    # Environment-gated publish: the OIDC token issued for this job carries
+    # an `environment: release` claim. The npm Trusted Publisher config requires
+    # that claim, so OIDC tokens minted by any other workflow or step cannot
+    # publish even if leaked.
+    environment: release
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
         with:
           # Node 24+ ships with npm 11.x natively (Node 22 LTS still bundles
           # npm 10.x, which does not support OIDC trusted publishing for the
           # registry PUT — only for the Sigstore provenance signature).
           node-version: '24.x'
-          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Verify tag matches package.json version
