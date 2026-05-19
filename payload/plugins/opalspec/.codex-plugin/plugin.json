@@ -1,6 +1,6 @@
 ﻿{
   "name": "opalspec",
-  "version": "3.3.2",
+  "version": "3.4.0-rc.1",
   "description": "OpalSpec spec-driven development workflow for requirements, design, tasks, and implementation.",
   "author": {
     "name": "OpalSpec Maintainers",

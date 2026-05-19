@@ -5,7 +5,7 @@ license: MIT
 compatibility: Local repo workflow, no external CLI required.
 metadata:
   author: local
-  version: "3.3.2"
+  version: "3.4.0-rc.1"
 ---
 
 # OpalSpec
