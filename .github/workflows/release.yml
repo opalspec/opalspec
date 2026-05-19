@@ -18,7 +18,10 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: '22.x'
+          # Node 24+ ships with npm 11.x natively (Node 22 LTS still bundles
+          # npm 10.x, which does not support OIDC trusted publishing for the
+          # registry PUT — only for the Sigstore provenance signature).
+          node-version: '24.x'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 

@@ -1,6 +1,6 @@
 {
   "name": "@opalspec/opalspec",
-  "version": "3.4.0-rc.4",
+  "version": "3.4.0-rc.5",
   "description": "Spec-driven development workflow for AI coding agents",
   "license": "MIT",
   "homepage": "https://opalspec.dev",

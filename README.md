@@ -8,13 +8,13 @@ Unlike heavier process-driven approaches, OpalSpec does not assume one workflow 
 
 ## How it works
 
-You do not need to use OpalSpec for every change, and OpalSpec does not enforce a master spec. Code remains the executable source of truth. Specs capture the intent, decisions, and context around a change; docs explain how the finished system works. This reduces overhead, avoids unnecessary AI reconciliation, and keeps the workflow practical.
+You do not need to use OpalSpec for every change, and OpalSpec does not enforce a master spec. Code remains the executable source of truth. Specs capture the intent, decisions, and context around a change and optional docs explain how the finished system works. This reduces overhead, avoids unnecessary AI reconciliation, and keeps the workflow practical.
 
-For changes suited to a spec-driven flow — features, larger refactors, AI-assisted work, or anything that benefits from clear intent — OpalSpec gives the agent the context it needs to produce more relevant results, while leaving a lasting record that makes the work easier to review, maintain, and extend.
+For changes suited to a spec-driven flow - features, larger refactors, AI-assisted work, or anything that benefits from clear intent, OpalSpec gives the coding agent the context it needs to produce more relevant results, while leaving a lasting record that makes the work easier to review, maintain, and extend.
 
 OpalSpec has three core steps: **requirements**, **design**, and **implementation**.
 
-Requirements define what needs to be built and why, giving both the developer and the agent a clear understanding of the intended change. Design explains how the change should be approached, including the structure, important decisions, and constraints the implementation should follow. Implementation is where the agent uses that context to make the change in the codebase, producing results guided by the spec rather than a loose prompt.
+Requirements define what needs to be built and why, giving both the developer and the agent a clear understanding of the intended change. Design explains how the change should be approached rom a technical perspective, including the structure, important decisions, and constraints the implementation should follow. Implementation is where the agent uses that context to make the change in the codebase, producing results guided by the spec rather than a loose prompt.
 
 Only the core flow is required: create the spec, design the solution, then implement the change. Other steps, such as clarifying questions, preflight review, playback, task generation, and documentation, are optional and can be used when they add value.
 
@@ -22,7 +22,7 @@ Only the core flow is required: create the spec, design the solution, then imple
 
 ### Core flow
 
-- **`/opal:new`** — Create a new spec and generate requirements. Use this when you want to define the change clearly before design or implementation begins.
+- **`/opal:new`** — Create a new spec and generate requirements. Use this when you want to define the change clearly before design or implementation begins. You can ask the agent to generate the spec directly based on your prompt or enter an ask me loop where the agent will ask clarifying questions.
 
 - **`/opal:design`** — Create an implementation-facing design from the requirements. Use this when you want the agent to understand the codebase, plan the approach, and capture key decisions before writing code.
 
