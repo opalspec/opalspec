@@ -22,6 +22,17 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Debug — print OIDC subject claim
+        # Temporary diagnostic. Decodes the GitHub Actions OIDC token to see the
+        # exact sub/aud/repository/workflow_ref claims that npm will verify
+        # against its trusted publisher config. Token body only — no secrets.
+        run: |
+          AUDIENCE="npm:registry.npmjs.org"
+          IDTOKEN=$(curl -sLS -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$AUDIENCE" | jq -r .value)
+          echo "=== OIDC claims (audience=$AUDIENCE) ==="
+          echo "$IDTOKEN" | cut -d. -f2 | base64 -d 2>/dev/null | jq '{sub, aud, repository, repository_owner, workflow_ref, job_workflow_ref, ref, environment}'
+
       - name: Verify tag matches package.json version
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
